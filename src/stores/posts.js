@@ -30,7 +30,7 @@ export const usePostsStore = defineStore('posts', {
         },
         getCurrentPost: (state) => async (id) => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/posts/${id}`)
+                const response = await axios.get(`${process.env.VUE_APP_API_URL}api/posts/${id}`)
                 state.currentPost = {...response.data}
             } catch (error) {
                 console.log(error)
@@ -40,17 +40,17 @@ export const usePostsStore = defineStore('posts', {
     actions: {
         async addPost(newPost) {
             console.log(newPost)
-            const { data } = await axios.post("http://localhost:5000/api/posts", newPost)
+            const { data } = await axios.post(`${process.env.VUE_APP_API_URL}api/posts`, newPost)
             this.socket.send(JSON.stringify({...data, method: 'addPost'}))
         },
         async deletePost(post) {
-            const { data } = await axios.delete(`http://localhost:5000/api/posts/${post._id}`)
+            const { data } = await axios.delete(`${process.env.VUE_APP_API_URL}api/posts/${post._id}`)
             this.socket.send(JSON.stringify({ id: data._id, method: 'deletePost' }))
         },
         async fetchPosts() {
             try {
                 this.loading = true
-                const response = await axios.get("http://localhost:5000/api/posts")
+                const response = await axios.get(`${process.env.VUE_APP_API_URL}api/posts`)
                 this.posts = response.data
             } catch (error) {
                 this.error = error.code
