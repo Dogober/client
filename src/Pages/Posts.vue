@@ -71,7 +71,7 @@ export default {
     components: { PostForm, PostList },
     mounted() {
         if(!this.postStore.posts.length) {
-            const socket = new WebSocket('ws://localhost:5000/')
+            const socket = new WebSocket('ws://quiet-bayou-70608.herokuapp.com/')
             this.setSocket(socket)
             this.fetchPosts()
         }
